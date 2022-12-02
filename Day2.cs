@@ -4,6 +4,7 @@ public class Day2
 {
     private static readonly string _key1 = "ABC";
     private static readonly string _key2 = "XYZ";
+    private static readonly int KeyLength = 3;
     private static readonly string _fileName = "day2.txt";
     private static readonly string[] lines = ReadFromFile.ReadLines(_fileName);
     static int keyConvert(char input, string key)
@@ -16,6 +17,15 @@ public class Day2
             }
         }
         throw new Exception("character not found in key");
+    }
+    static int KeyConvert2(char input, int start)
+    {
+        int x = input - start;
+        return (x < KeyLength) switch
+        {
+            true => x,
+            false => throw new Exception("Out of range")
+        };
     }
 
     private static int evaluatePoints(int input1, int input2, bool reverse = false)
@@ -33,7 +43,7 @@ public class Day2
         int runningTotal = 0;
         foreach (string line in lines)
         {
-            runningTotal += evaluatePoints(keyConvert(line[0], _key1), keyConvert(line[2], _key2));
+            runningTotal += evaluatePoints(KeyConvert2(line[0], 65), KeyConvert2(line[2], 88));
         }
         Console.WriteLine(runningTotal);
     }
