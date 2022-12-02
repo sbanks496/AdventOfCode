@@ -2,27 +2,20 @@ namespace AdventOfCode;
 
 public class Day2
 {
-    private static readonly (char, char, char) _key1 = ('A', 'B', 'C');
-    private static readonly (char, char, char) _key2 = ('X', 'Y', 'Z');
-    private static readonly int[] _playPoints = {1, 2, 3};
-    private static readonly int[] _scorePoints = {3, 6, 0};
+    private static readonly string _key1 = "ABC";
+    private static readonly string _key2 = "XYZ";
     private static readonly string _fileName = "day2.txt";
     private static readonly string[] lines = ReadFromFile.ReadLines(_fileName);
-    static int keyConvert(char input, (char, char, char) key)
+    static int keyConvert(char input, string key)
     {
-        if (input == key.Item1)
+        for (int i = 0; i < 3; i++)
         {
-            return 0;
+            if (key[i] == input)
+            {
+                return i;
+            }
         }
-        else if (input == key.Item2)
-        {
-            return 1;
-        }
-        else if (input == key.Item3)
-        {
-            return 2;
-        }
-        throw new Exception();
+        throw new Exception("character not found in key");
     }
 
     private static int evaluatePoints(int input1, int input2, bool reverse = false)
@@ -30,8 +23,8 @@ public class Day2
         int i = (input2 - input1 + 3) % 3;
         return reverse switch
         {
-            true => _playPoints[i] + _scorePoints[(input2 + 3) % 3],
-            false => _playPoints[input2] + _scorePoints[i]
+            true => i+1 + (input2+1) * 3,
+            false => input2 + 1 + (i * 3 + 3) % 9
         };
     }
 
